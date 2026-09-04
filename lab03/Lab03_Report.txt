@@ -1,0 +1,12 @@
+1. The Race Condition (Phase 2):
+   เกิดเพราะ shared_weight += 1 ไม่ได้ทำงานทีเดียว แต่มี 3 ขั้นตอน คือ อ่านค่าเดิม → บวก 1 → เขียนค่ากลับ ทำให้ OS สามารถสลับ thread ระหว่างขั้นตอนได้ ทั้ง 2 thread อาจอ่านค่าเดิมแล้วเขียนทับกัน ทำให้ค่าบางส่วนหายไป และผลสุดท้ายน้อยกว่า 200
+
+2. Mutex vs. Semaphore (Phase 3):
+
+mutex: ให้ thread เดียวแก้ buffer/index ได้ในเวลาเดียวกัน ช่วยป้องกัน race condition
+empty/full semaphore: ใช้นับช่องว่างและข้อมูลใน buffer ทำให้ Producer รอเมื่อเต็ม และ Consumer รอเมื่อว่าง
+
+ใช้ mutex อย่างเดียวไม่ได้ เพราะ mutex บอกได้แค่ว่ามีคนใช้งานอยู่หรือไม่ แต่ไม่สามารถบอกจำนวนช่องว่างได้
+
+3. Deadlock Awareness:
+   ถ้า Producer ใช้ mutex ก่อน แล้วไปติดรอที่ empty.acquire() ตอน buffer เต็ม Producer จะไม่ปล่อย mutex ทำให้ Consumer ขอ mutex ไม่ได้เพื่อเอาข้อมูลออก สุดท้ายทั้งสอง thread รอกันเองและเกิด Deadlock
