@@ -4,13 +4,10 @@
 - Multiprocessing Time: 8.27 seconds
 
 2. System Observation (htop):
-Multithreading ใช้แค่ core เดียว (สลับไปมา) เพราะ GIL บังคับให้รันทีละ thread 
-ส่วน Multiprocessing ใช้ทั้ง 2 core พร้อมกันเต็มที่ เพราะแต่ละ process มี GIL 
-ของตัวเอง OS เลยกระจายงานไปคนละ core ได้จริง
+Multithreading ใช้ CPU แค่ core เดียว เพราะ GIL ทำให้ Python รันได้ทีละ thread ส่วน Multiprocessing ใช้ ทั้ง 2 cores พร้อมกัน 
+เพราะแต่ละ process มี GIL แยกกัน ทำให้ OS กระจายงานไปแต่ละ core ได้จริง
 
 3. Analysis (The GIL):
-Multithreading ไม่เร็วขึ้นเพราะ GIL อนุญาตให้รัน Python bytecode ได้ทีละ thread 
-เท่านั้น ไม่ว่าจะมีกี่ core ก็ตาม งานแบบ CPU-bound (คำนวณหนัก) จึงไม่ได้ประโยชน์
-จาก threading เลย ตรงข้ามกับ Multiprocessing ที่แต่ละ process แยก interpreter/GIL 
-กัน ทำให้ OS กระจายไปรันบนหลาย core พร้อมกันได้จริง เหมาะกับงาน ML data 
-augmentation ที่เป็นงานคำนวณหนักแบบนี้
+Multithreading ไม่ช่วยให้งาน CPU-bound เร็วขึ้น เพราะ GIL อนุญาตให้รัน Python bytecode ได้ทีละ thread เท่านั้น 
+ส่วน Multiprocessing แยก interpreter และ GIL ของแต่ละ process จึงสามารถใช้หลาย cores พร้อมกันได้ 
+เหมาะกับงาน ML data augmentation ที่ต้องคำนวณหนัก
