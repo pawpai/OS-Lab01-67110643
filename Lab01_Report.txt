@@ -5,12 +5,14 @@ Student ID: 67110643
 ======================================================
 
 1. Hardware Baseline:
-- OS Version:
-- Number of CPU Cores:
-- Total RAM:
-
+- OS Version: Ubuntu 22.04.1 LTS (Linux kernel, x86_64)
+- Number of CPU Cores: 2
+- Total RAM: 7.8 GB
 2. Observation (from htop during stress test):
-[Write your answer here]
+ระหว่างใช้ Stress Test  จะมี cpu แค่ 1 core ขึ้นไป 100% และอี core แทบไม่ทำงาน 
+เป็นเพราะ stress_test.py เป็นโปรแกรม Python แบบ Single-threaded  ทำงานแค่ เธรดเดียว
 
 3. Analysis:
-[Write your answer here]
+การรู้ข้อจำกัดของ RAM และ CPU ล่วงหน้าเป็นสิ่งสำคัญ เพราะเครื่องมี RAM เพียง 7.8 GB และ CPU 2 คอร์ หากโหลดรูป 500,000 รูปพร้อมกัน อาจทำให้หน่วยความจำไม่พอ โปรแกรมล่ม หรือเกิดการใช้ Swap อย่างหนัก
+นอกจากนี้ Python แบบ Single-threaded ใช้ CPU ได้เพียงคอร์เดียว ดังนั้นควรใช้ Multiprocessing เพื่อประมวลผลทั้ง 2 คอร์ การทำ Profiling ก่อน ช่วยเลือก Batch Size และวิธี Parallelization ที่เหมาะสมได้โดยไม่ต้องเดา
+
