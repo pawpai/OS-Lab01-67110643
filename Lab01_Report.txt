@@ -1,7 +1,7 @@
 ======================================================
 COE67-XXX Operating Systems - Lab 01 Report
-Name: 
-Student ID: 
+Name: pawarit jantharwan
+Student ID: 67110643
 ======================================================
 
 1. Hardware Baseline:
